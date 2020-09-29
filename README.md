@@ -3,28 +3,35 @@
 
 - [About](#about)
 - [Prequisites](#prerequisites)
-- [Features](#features)
+- [Improvements](#improvements)
 - [Contact](#contact)
 - [License](#license)
 
 ---
 ## About
 
-- All the `code` required to get started
-- Images of what it should look like
+- There are two dags (1: process_swapi_people| 2: aggregate_swapi)
+- The first one loads people from swapi.dev into a mysql table swapi_data.swapi.people
+- The second dag 'senses' the completion of the last tasks in the first dag 
+- The tasks in the second dag aggregate data to get max age by film and character 
+- Aggregate data is posted to http://requestbin.net/r/zorarbzo and also stored in a mysql table swapi_data.swapi.people_aggregate
+- The API does not have data of FILM 7 - so the oldest character in 5 films is Master Yoda 
 
 ## Prerequisites
 
-- All the `code` required to get started
-- Images of what it should look like
+- Setup Aiflow, Celery, Rabbitmq, Mysql
+- mysql_default connection should be set to your Mysql db. User must have create db privileges 
+- http connection called swapi_people	pointing to	https://swapi.dev/api/people/
 
-### Features
+### Improvements
 
-- Clone this repo to your local machine using `https://github.com/fvcproductions/SOMEREPO`
+- Calculate number of pages returned by the API - make range dynamic
+- Crawl and process 1 page at a time 
+- Create aggregate in timestamped tables - do not overwrite 
 
 ### Contact
 
-- If you want more syntax highlighting, format your code like this:
+- anuj.pandit@gmail.com
 
 ## License
 

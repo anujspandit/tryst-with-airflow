@@ -17,9 +17,16 @@
 - Aggregate data is posted to http://requestbin.net/r/zorarbzo and also stored in a mysql table swapi_data.swapi.people_aggregate
 - The API does not have data of FILM 7 - so the oldest character in 5 films is Master Yoda 
 
-For both DAGs:
+### For both DAGs:
+
+```python
 schedule_interval='*/5 * * * *'
+```
+```python
 'start_date': datetime.utcnow() - timedelta(minutes=10),
+```
+
+
 
 [![DAGS IN ACTION](https://user-images.githubusercontent.com/12543322/94524422-36811300-0250-11eb-97bb-0c6afe89cf42.PNG)]()
 

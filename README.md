@@ -19,14 +19,22 @@
 
 ### For both DAGs:
 
+#### In the DAG definition:
 ```python
 schedule_interval='*/5 * * * *'
 ```
+#### In the args:
 ```python
 'start_date': datetime.utcnow() - timedelta(minutes=10),
 ```
-
-
+#### Sensor specifics:
+```python
+sensor = ExternalTaskSensor(task_id='dag_sensor', 
+    external_dag_id = 'process_swapi_people', 
+    external_task_id = 'print_date', 
+    dag=dag, 
+    mode = 'reschedule')
+```
 
 [![DAGS IN ACTION](https://user-images.githubusercontent.com/12543322/94524422-36811300-0250-11eb-97bb-0c6afe89cf42.PNG)]()
 

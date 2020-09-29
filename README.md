@@ -14,7 +14,7 @@
 - The first one loads people from swapi.dev into a mysql table swapi_data.swapi.people
 - The second dag 'senses' the completion of the last task in the first dag 
 - The tasks in the second dag aggregate data to get max age by film and character 
-- Aggregate data is posted to http://requestbin.net/r/zorarbzo and also stored in a mysql table swapi_data.swapi.people_aggregate
+- Aggregate data is posted to https://requestbin.net/r/zorarbzo and also stored in a mysql table swapi_data.swapi.people_aggregate
 - The API does not have data of FILM 7 - so the oldest character in 5 films is Master Yoda 
 
 ### For both DAGs:

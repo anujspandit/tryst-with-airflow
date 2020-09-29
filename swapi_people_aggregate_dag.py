@@ -14,6 +14,7 @@ from airflow.sensors.external_task_sensor import ExternalTaskSensor
 
 from airflow.models import DAG
 
+# Create database if it does not exist
 def check_database():
     # Create database if not exists 
     connection = MySqlHook(mysql_conn_id='mysql_default')    
@@ -21,6 +22,7 @@ def check_database():
     connection.run(sql, autocommit=True, parameters=())
     return True
 
+# Create table if does not exist and clear existing records
 def create_table():
     # Drop and Re-create table  
     connection = MySqlHook(mysql_conn_id='mysql_default') 
@@ -40,6 +42,8 @@ def create_table():
 
     return True
 
+# Group by film and then get the person with the max age 
+# Add data to a table swapi_data.swapi_people_aggregate 
 def build_aggregrate():    
     connection = MySqlHook(mysql_conn_id='mysql_default')
     sql = '''
@@ -67,6 +71,7 @@ def build_aggregrate():
 
     return True
 
+# Send the aggregate data to a requestbin as JSON 
 def send_aggregate_to_requestbin():
     target = 'http://requestbin.net/r/zorarbzo'
     

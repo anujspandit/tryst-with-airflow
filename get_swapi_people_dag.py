@@ -11,6 +11,7 @@ from airflow.utils.dates import days_ago
 
 from airflow.models import DAG
 
+# Create database if it does not exist
 def check_database():
     # Create database if not exists 
     connection = MySqlHook(mysql_conn_id='mysql_default')    
@@ -18,6 +19,7 @@ def check_database():
     connection.run(sql, autocommit=True, parameters=())
     return True
 
+# Create table if does not exist and clear existing records
 def create_table():
     # Drop and Re-create table  
     connection = MySqlHook(mysql_conn_id='mysql_default') 
@@ -39,6 +41,8 @@ def create_table():
 
     return True
 
+# Get people from swapi.dev. 9 pages in a loop. 
+# Can split this task in the future and make the range dynamic by using count of records in /people/
 def get_people(**kwargs):    
     api_hook = HttpHook(http_conn_id='swapi_people', method='GET')
 
@@ -51,6 +55,9 @@ def get_people(**kwargs):
 
     return True
 
+# Store the people in swapi_data.swapi_people table
+# For each person, film data is in an array
+# The array is flattened and records are created for a person-and-film
 def store_people(records):
     connection = MySqlHook(mysql_conn_id='mysql_default')
     for person in records:
@@ -74,6 +81,8 @@ def store_people(records):
 
     return True
 
+# Replace 'unknown' with '0BBY'
+# Could not find any records with birth year in ABY!!!
 def clean_people_data(**kwargs):    
     connection = MySqlHook(mysql_conn_id='mysql_default')
     sql = 'UPDATE `swapi_data`.`swapi_people` SET birth_year = %s WHERE birth_year = %s'
@@ -81,6 +90,7 @@ def clean_people_data(**kwargs):
 
     return True
 
+# Convert birth year to a decimal value after replacing 'BBY' 
 def prepare_people_data(**kwargs):    
     connection = MySqlHook(mysql_conn_id='mysql_default')
     sql = 'UPDATE `swapi_data`.`swapi_people` SET birth_year_number = REPLACE(birth_year, %s, %s);'
